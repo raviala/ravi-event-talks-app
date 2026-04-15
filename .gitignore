@@ -1,0 +1,8 @@
+# Generated HTML file
+index.html
+
+# Gemini CLI specific settings
+.gemini/
+
+# Node.js modules (if any were installed)
+node_modules/

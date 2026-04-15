@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-Day Technical Talks Event</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+.container {
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+header {
+    background-color: #0056b3;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 20px;
+}
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+header p {
+    margin-top: 5px;
+    font-size: 1.1em;
+}
+#search-section {
+    margin-bottom: 20px;
+    text-align: center;
+}
+#category-search {
+    width: 80%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+#schedule-container {
+    display: grid;
+    gap: 15px;
+}
+.talk-card, .break-card, .transition-card {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid #007bff;
+    transition: all 0.3s ease;
+}
+.talk-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    cursor: pointer;
+}
+.talk-card.filtered {
+    background-color: #d1ecf1;
+    border-left-color: #17a2b8;
+}
+.talk-card h3 {
+    margin-top: 0;
+    color: #0056b3;
+}
+.talk-card p {
+    margin: 5px 0;
+}
+.talk-card .speakers {
+    font-style: italic;
+    color: #555;
+}
+.talk-card .category {
+    font-size: 0.9em;
+    color: #007bff;
+    font-weight: bold;
+}
+.talk-card .time {
+    font-weight: bold;
+    color: #666;
+}
+.talk-card .description {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    display: none; /* Hidden by default */
+}
+.talk-card.expanded .description {
+    display: block; /* Shown when expanded */
+}
+.break-card {
+    background-color: #f8d7da;
+    border-left-color: #dc3545;
+    text-align: center;
+    font-weight: bold;
+    color: #721c24;
+}
+.transition-card {
+    background-color: #d4edda;
+    border-left-color: #28a745;
+    text-align: center;
+    font-style: italic;
+    color: #155724;
+    font-size: 0.9em;
+    padding: 5px 15px;
+}
+@media (max-width: 600px) {
+    .container {
+        margin: 10px;
+        padding: 10px;
+    }
+    header h1 {
+        font-size: 2em;
+    }
+    #category-search {
+        width: 95%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>1-Day Technical Talks Event</h1>
+            <p>Date: April 15, 2026</p>
+        </header>
+        <main>
+            <section id="search-section">
+                <input type="text" id="category-search" placeholder="Search by category (e.g., AI, Node.js)...">
+            </section>
+            <section id="schedule">
+                <h2>Event Schedule</h2>
+                <div id="schedule-container">
+                    <!-- Schedule items will be dynamically injected here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const allTalks = [
+  {
+    "title": "The Future of AI in Software Development",
+    "speakers": [
+      "Dr. Alex W. Chen"
+    ],
+    "category": [
+      "AI",
+      "Development",
+      "Future"
+    ],
+    "duration": 60,
+    "description": "Explore the transformative impact of artificial intelligence on software engineering, from automated code generation to intelligent debugging and testing. We'll discuss current trends, emerging tools, and what the future holds for developers working alongside AI."
+  },
+  {
+    "title": "Building Scalable Microservices with Node.js",
+    "speakers": [
+      "Maria Rodriguez",
+      "David Lee"
+    ],
+    "category": [
+      "Node.js",
+      "Microservices",
+      "Architecture"
+    ],
+    "duration": 60,
+    "description": "Dive into best practices for designing and implementing scalable microservices using Node.js. This session covers service decomposition, inter-service communication patterns, data consistency, and deployment strategies for high-performance applications."
+  },
+  {
+    "title": "Frontend Performance Optimization Techniques",
+    "speakers": [
+      "Sophia Sharma"
+    ],
+    "category": [
+      "Frontend",
+      "Performance",
+      "Web Development"
+    ],
+    "duration": 60,
+    "description": "Learn advanced techniques to boost your web application's frontend performance. Topics include critical rendering path optimization, efficient asset loading, lazy loading components, and practical tools for identifying and fixing bottlenecks."
+  },
+  {
+    "title": "Demystifying Blockchain: Beyond the Hype",
+    "speakers": [
+      "Michael 'Block' Johnson"
+    ],
+    "category": [
+      "Blockchain",
+      "Cryptocurrency",
+      "Decentralization"
+    ],
+    "duration": 60,
+    "description": "Get a clear understanding of blockchain technology without the jargon. This talk will explain the core concepts, its underlying mechanisms, and real-world applications beyond cryptocurrencies, highlighting its potential and limitations."
+  },
+  {
+    "title": "Containerization with Docker and Kubernetes for Developers",
+    "speakers": [
+      "Emily White"
+    ],
+    "category": [
+      "DevOps",
+      "Containers",
+      "Cloud"
+    ],
+    "duration": 60,
+    "description": "A hands-on introduction to Docker and Kubernetes for developers. Understand how to package your applications into containers, manage them with Kubernetes, and streamline your development and deployment workflows for cloud-native environments."
+  },
+  {
+    "title": "Effective API Design: REST, GraphQL, and Beyond",
+    "speakers": [
+      "James 'API' Miller",
+      "Laura Kim"
+    ],
+    "category": [
+      "API",
+      "Design",
+      "Backend"
+    ],
+    "duration": 60,
+    "description": "Explore the principles of effective API design, comparing and contrasting RESTful APIs with GraphQL. We'll discuss when to use each, common pitfalls, versioning strategies, and emerging trends in API development."
+  }
+];
+        const eventSchedule = [
+  {
+    "type": "talk",
+    "title": "The Future of AI in Software Development",
+    "speakers": [
+      "Dr. Alex W. Chen"
+    ],
+    "category": [
+      "AI",
+      "Development",
+      "Future"
+    ],
+    "duration": 60,
+    "description": "Explore the transformative impact of artificial intelligence on software engineering, from automated code generation to intelligent debugging and testing. We'll discuss current trends, emerging tools, and what the future holds for developers working alongside AI.",
+    "startTime": "10:00 AM",
+    "endTime": "11:00 AM",
+    "id": "talk-0"
+  },
+  {
+    "type": "transition",
+    "name": "Transition",
+    "startTime": "11:00 AM",
+    "endTime": "11:10 AM",
+    "duration": 10
+  },
+  {
+    "type": "talk",
+    "title": "Building Scalable Microservices with Node.js",
+    "speakers": [
+      "Maria Rodriguez",
+      "David Lee"
+    ],
+    "category": [
+      "Node.js",
+      "Microservices",
+      "Architecture"
+    ],
+    "duration": 60,
+    "description": "Dive into best practices for designing and implementing scalable microservices using Node.js. This session covers service decomposition, inter-service communication patterns, data consistency, and deployment strategies for high-performance applications.",
+    "startTime": "11:10 AM",
+    "endTime": "12:10 PM",
+    "id": "talk-1"
+  },
+  {
+    "type": "transition",
+    "name": "Transition",
+    "startTime": "12:10 PM",
+    "endTime": "12:20 PM",
+    "duration": 10
+  },
+  {
+    "type": "break",
+    "name": "Lunch Break",
+    "startTime": "12:20 PM",
+    "endTime": "01:20 PM",
+    "duration": 60
+  },
+  {
+    "type": "talk",
+    "title": "Frontend Performance Optimization Techniques",
+    "speakers": [
+      "Sophia Sharma"
+    ],
+    "category": [
+      "Frontend",
+      "Performance",
+      "Web Development"
+    ],
+    "duration": 60,
+    "description": "Learn advanced techniques to boost your web application's frontend performance. Topics include critical rendering path optimization, efficient asset loading, lazy loading components, and practical tools for identifying and fixing bottlenecks.",
+    "startTime": "01:20 PM",
+    "endTime": "02:20 PM",
+    "id": "talk-2"
+  },
+  {
+    "type": "transition",
+    "name": "Transition",
+    "startTime": "02:20 PM",
+    "endTime": "02:30 PM",
+    "duration": 10
+  },
+  {
+    "type": "talk",
+    "title": "Demystifying Blockchain: Beyond the Hype",
+    "speakers": [
+      "Michael 'Block' Johnson"
+    ],
+    "category": [
+      "Blockchain",
+      "Cryptocurrency",
+      "Decentralization"
+    ],
+    "duration": 60,
+    "description": "Get a clear understanding of blockchain technology without the jargon. This talk will explain the core concepts, its underlying mechanisms, and real-world applications beyond cryptocurrencies, highlighting its potential and limitations.",
+    "startTime": "02:30 PM",
+    "endTime": "03:30 PM",
+    "id": "talk-3"
+  },
+  {
+    "type": "transition",
+    "name": "Transition",
+    "startTime": "03:30 PM",
+    "endTime": "03:40 PM",
+    "duration": 10
+  },
+  {
+    "type": "talk",
+    "title": "Containerization with Docker and Kubernetes for Developers",
+    "speakers": [
+      "Emily White"
+    ],
+    "category": [
+      "DevOps",
+      "Containers",
+      "Cloud"
+    ],
+    "duration": 60,
+    "description": "A hands-on introduction to Docker and Kubernetes for developers. Understand how to package your applications into containers, manage them with Kubernetes, and streamline your development and deployment workflows for cloud-native environments.",
+    "startTime": "03:40 PM",
+    "endTime": "04:40 PM",
+    "id": "talk-4"
+  },
+  {
+    "type": "transition",
+    "name": "Transition",
+    "startTime": "04:40 PM",
+    "endTime": "04:50 PM",
+    "duration": 10
+  },
+  {
+    "type": "talk",
+    "title": "Effective API Design: REST, GraphQL, and Beyond",
+    "speakers": [
+      "James 'API' Miller",
+      "Laura Kim"
+    ],
+    "category": [
+      "API",
+      "Design",
+      "Backend"
+    ],
+    "duration": 60,
+    "description": "Explore the principles of effective API design, comparing and contrasting RESTful APIs with GraphQL. We'll discuss when to use each, common pitfalls, versioning strategies, and emerging trends in API development.",
+    "startTime": "04:50 PM",
+    "endTime": "05:50 PM",
+    "id": "talk-5"
+  }
+];
+        const scheduleContainer = document.getElementById('schedule-container');
+const searchInput = document.getElementById('category-search');
+
+function renderSchedule(filterCategory = '') {
+    scheduleContainer.innerHTML = ''; // Clear existing schedule
+
+    eventSchedule.forEach(item => {
+        let element;
+        if (item.type === 'talk') {
+            const categories = item.category.map(cat => cat.toLowerCase());
+            const matchesFilter = filterCategory === '' || categories.some(cat => cat.includes(filterCategory.toLowerCase()));
+
+            element = document.createElement('div');
+            element.classList.add('talk-card');
+            if (matchesFilter) {
+                element.classList.add('filtered'); // Highlight matching talks
+            }
+            element.innerHTML = `
+                <p class="time">${item.startTime} - ${item.endTime}</p>
+                <h3>${item.title}</h3>
+                <p class="speakers">Speakers: ${item.speakers.join(', ')}</p>
+                <p class="category">Categories: ${item.category.join(', ')}</p>
+                <p class="description">${item.description}</p>
+            `;
+            element.addEventListener('click', () => {
+                element.classList.toggle('expanded');
+            });
+        } else if (item.type === 'break') {
+            element = document.createElement('div');
+            element.classList.add('break-card');
+            element.innerHTML = `
+                <p class="time">${item.startTime} - ${item.endTime}</p>
+                <h3>${item.name}</h3>
+            `;
+        } else if (item.type === 'transition') {
+            element = document.createElement('div');
+            element.classList.add('transition-card');
+            element.innerHTML = `
+                <p class="time">${item.startTime} - ${item.endTime}</p>
+                <p>${item.name}</p>
+            `;
+        }
+        scheduleContainer.appendChild(element);
+    });
+}
+
+// Initial render
+renderSchedule();
+
+// Search functionality
+searchInput.addEventListener('input', (event) => {
+    renderSchedule(event.target.value);
+});
+    </script>
+</body>
+</html>
